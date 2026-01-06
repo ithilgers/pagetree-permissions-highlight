@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Ithilgers\PagetreePermissionsHighlight\:
+    resource: '../Classes/*'
+
+  Ithilgers\PagetreePermissionsHighlight\EventListener\PageTreeItemsListener:
+    tags:
+      - name: event.listener
+        event: TYPO3\CMS\Backend\Controller\Event\AfterPageTreeItemsPreparedEvent
