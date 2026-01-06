@@ -2,6 +2,8 @@
 
 [![TYPO3 12](https://img.shields.io/badge/TYPO3-12.4-orange.svg)](https://get.typo3.org/version/12)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![Packagist Version](https://img.shields.io/packagist/v/ithilgers/pagetree-permissions-highlight)](https://packagist.org/packages/ithilgers/pagetree-permissions-highlight)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/ithilgers/pagetree-permissions-highlight)](https://packagist.org/packages/ithilgers/pagetree-permissions-highlight)
 
 Visual highlighting of pages in the TYPO3 backend page tree where the current user has content editing permissions.
 
