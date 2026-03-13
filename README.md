@@ -10,7 +10,8 @@ Visual highlighting of pages in the TYPO3 backend page tree where the current us
 ## Features
 
 - **Visual Feedback**: Highlights pages with a customizable background color where the user has content editing rights
-- **Filter Toggle**: Dropdown menu item "Nur bearbeitbare Seiten" in the page tree to filter down to editable pages only, with bridge nodes keeping the tree structure intact
+- **Filter Toggle**: Dropdown menu item "Editable pages only" in the page tree to filter down to editable pages only, with bridge nodes keeping the tree structure intact
+- **Localized**: Full English and German translations, respects TYPO3 backend language setting
 - **Permission-Aware**: Only shows highlights based on actual user permissions
 - **Admin-Optimized**: Skips highlighting for admin users (who have all permissions anyway)
 - **Configurable**: Customize the highlight color through extension configuration
@@ -97,6 +98,10 @@ Configuration/
 └── Services.yaml                    # Service registration
 
 Resources/
+├── Private/
+│   └── Language/
+│       ├── locallang.xlf                # English labels
+│       └── de.locallang.xlf             # German translation
 └── Public/
     └── JavaScript/
         └── permissions-filter-toggle.js  # Filter toggle UI

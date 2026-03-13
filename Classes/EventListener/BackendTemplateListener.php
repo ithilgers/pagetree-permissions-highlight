@@ -21,6 +21,9 @@ final class BackendTemplateListener
             return;
         }
 
+        $this->pageRenderer->addInlineLanguageLabelFile(
+            'EXT:pagetree_permissions_highlight/Resources/Private/Language/locallang.xlf'
+        );
         $this->pageRenderer->loadJavaScriptModule(
             '@ithilgers/pagetree-permissions-highlight/permissions-filter-toggle.js'
         );

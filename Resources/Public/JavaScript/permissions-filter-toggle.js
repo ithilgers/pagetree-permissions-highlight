@@ -58,7 +58,7 @@ class PermissionsFilterToggle {
                         <typo3-backend-icon identifier="actions-filter" size="small"></typo3-backend-icon>
                     </span>
                     <span class="dropdown-item-column dropdown-item-column-title">
-                        Nur bearbeitbare Seiten
+                        ${TYPO3.lang['filter.toggle.label'] || 'Editable pages only'}
                     </span>
                 </span>
             </button>
@@ -74,7 +74,11 @@ class PermissionsFilterToggle {
             await Persistent.set(STORAGE_KEY, this.active ? '1' : '0');
             BrowserSession.set(SESSION_FLAG, '1');
             if (this.active) {
-                Notification.info('Seitenbaum-Filter', 'Es werden nur Seiten angezeigt, für die Sie Bearbeitungsrechte haben.', 5);
+                Notification.info(
+                    TYPO3.lang['filter.notification.title'] || 'Page tree filter',
+                    TYPO3.lang['filter.notification.message'] || 'Only pages you have editing permissions for are displayed.',
+                    5
+                );
             }
             document.dispatchEvent(new CustomEvent('typo3:pagetree:refresh'));
         });
@@ -97,8 +101,8 @@ class PermissionsFilterToggle {
                 <div class="node-mount-point__icon">
                     <typo3-backend-icon identifier="actions-filter" size="small"></typo3-backend-icon>
                 </div>
-                <div class="node-mount-point__text">Nur bearbeitbare Seiten</div>
-                <div class="node-mount-point__icon mountpoint-close" title="Filter deaktivieren">
+                <div class="node-mount-point__text">${TYPO3.lang['filter.toggle.label'] || 'Editable pages only'}</div>
+                <div class="node-mount-point__icon mountpoint-close" title="${TYPO3.lang['filter.banner.close'] || 'Deactivate filter'}">
                     <typo3-backend-icon identifier="actions-close" size="small"></typo3-backend-icon>
                 </div>
             `;
