@@ -10,6 +10,7 @@ Visual highlighting of pages in the TYPO3 backend page tree where the current us
 ## Features
 
 - **Visual Feedback**: Highlights pages with a customizable background color where the user has content editing rights
+- **Filter Toggle**: Dropdown menu item "Nur bearbeitbare Seiten" in the page tree to filter down to editable pages only, with bridge nodes keeping the tree structure intact
 - **Permission-Aware**: Only shows highlights based on actual user permissions
 - **Admin-Optimized**: Skips highlighting for admin users (who have all permissions anyway)
 - **Configurable**: Customize the highlight color through extension configuration
@@ -88,10 +89,17 @@ The extension uses TYPO3's PSR-14 event system:
 ```
 Classes/
 └── EventListener/
-    └── PageTreeItemsListener.php  # Main event listener
+    ├── BackendTemplateListener.php  # Loads JS module in backend
+    └── PageTreeItemsListener.php    # Main event listener
 
 Configuration/
-└── Services.yaml                   # Service registration
+├── JavaScriptModules.php            # ES6 module registration
+└── Services.yaml                    # Service registration
+
+Resources/
+└── Public/
+    └── JavaScript/
+        └── permissions-filter-toggle.js  # Filter toggle UI
 
 ext_conf_template.txt               # Extension configuration template
 ext_emconf.php                      # Extension metadata
@@ -102,7 +110,9 @@ composer.json                       # Composer metadata
 
 | TYPO3 Version | Extension Version | Support |
 |---------------|-------------------|---------|
-| 12.4 LTS      | 1.0.x            | ✅ Active |
+| 12.4 LTS      | 1.2.x            | ✅ Active |
+| 12.4 LTS      | 1.1.x            | Security fix |
+| 12.4 LTS      | 1.0.x            | Initial release |
 
 ## Contributing
 

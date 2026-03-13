@@ -34,6 +34,7 @@ final class PageTreeItemsListener
 
     /**
      * Highlights pages in the page tree where the user has content editing permissions.
+     * When the filter is active, removes pages without permissions (keeping parent bridge nodes).
      *
      * @param AfterPageTreeItemsPreparedEvent $event The page tree event containing all page items
      * @return void
@@ -48,14 +49,54 @@ final class PageTreeItemsListener
         }
 
         $items = $event->getItems();
+        $filterActive = !empty($backendUser->uc['pageTree_permissionsFilterActive']);
 
+        // Identify pages with edit permissions
+        $permittedIdentifiers = [];
         foreach ($items as &$item) {
             if (isset($item['_page']) && $backendUser->doesUserHaveAccess($item['_page'], Permission::CONTENT_EDIT)) {
                 $item['backgroundColor'] = $this->highlightColor;
+                $permittedIdentifiers[] = $item['identifier'];
             }
         }
+        unset($item);
 
-        $event->setItems($items);
+        if ($filterActive) {
+            // Build lookup: identifier => item (identifier is a string of the page uid)
+            $itemsByIdentifier = [];
+            foreach ($items as $item) {
+                $itemsByIdentifier[$item['identifier']] = $item;
+            }
+
+            // O(1) lookups via array keys instead of in_array()
+            $permittedMap = array_flip($permittedIdentifiers);
+
+            // Collect all bridge node identifiers (ancestors of permitted pages)
+            $bridgeMap = [];
+            foreach ($permittedIdentifiers as $id) {
+                $parentId = (string)($itemsByIdentifier[$id]['_page']['pid'] ?? 0);
+                while ($parentId !== '0' && isset($itemsByIdentifier[$parentId]) && !isset($permittedMap[$parentId]) && !isset($bridgeMap[$parentId])) {
+                    $bridgeMap[$parentId] = true;
+                    $parentId = (string)($itemsByIdentifier[$parentId]['_page']['pid'] ?? 0);
+                }
+            }
+
+            // Filter items: keep permitted pages and bridge nodes
+            $filteredItems = [];
+            foreach ($items as $item) {
+                $id = $item['identifier'];
+                if (isset($permittedMap[$id])) {
+                    $filteredItems[] = $item;
+                } elseif (isset($bridgeMap[$id]) || ($item['depth'] ?? 1) === 0) {
+                    $item['backgroundColor'] = 'rgba(0, 0, 0, 0.05)';
+                    $filteredItems[] = $item;
+                }
+            }
+
+            $event->setItems($filteredItems);
+        } else {
+            $event->setItems($items);
+        }
     }
 
     /**

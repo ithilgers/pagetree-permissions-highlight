@@ -11,3 +11,8 @@ services:
     tags:
       - name: event.listener
         event: TYPO3\CMS\Backend\Controller\Event\AfterPageTreeItemsPreparedEvent
+
+  Ithilgers\PagetreePermissionsHighlight\EventListener\BackendTemplateListener:
+    tags:
+      - name: event.listener
+        event: TYPO3\CMS\Backend\Controller\Event\AfterBackendPageRenderEvent
